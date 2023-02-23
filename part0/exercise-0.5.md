@@ -1,18 +1,11 @@
-New note diagram:
+Single-page app diagram:
 
 ```mermaid
 sequenceDiagram
     participant browser
     participant server
     
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
-    activate server
-    server-->>browser: HTTP 302 redirect
-    deactivate server
-
-    Note right of browser: The browser send POST request to upload data in the payload with "note: cnguyenhai's note" to the server
-
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
     activate server
     server-->>browser: HTML document
     deactivate server
@@ -22,7 +15,7 @@ sequenceDiagram
     server-->>browser: the css file
     deactivate server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
     activate server
     server-->>browser: the JavaScript file
     deactivate server 
@@ -31,15 +24,15 @@ sequenceDiagram
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{"content":"ejm 1","date":"2023-02-22T22:00:40.652Z"}, ... ]
+    server-->>browser: [{"content":"lll","date":"2023-02-23T00:06:18.512Z"}, ... ]
     deactivate server
 
-    Note right of browser: The browser executes the callback function that get the notes with new note added    
+    Note right of browser: The browser executes the callback function that get the notes    
 
     browser->>server: GET https://studies.cs.helsinki.fi/favicon.ico
     activate server
     server-->>browser: the icon file (html)
     deactivate server
 
-    Note right of browser: The browser renders the new note page
+    Note right of browser: The browser renders the note page
 ```
