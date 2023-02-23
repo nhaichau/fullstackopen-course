@@ -31,13 +31,15 @@ sequenceDiagram
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{"content":"DBA","date":"2023-02-22T21:46:09.986Z"}, ... ]
-    deactivate server    
+    server-->>browser: [{"content":"ejm 1","date":"2023-02-22T22:00:40.652Z"}, ... ]
+    deactivate server
+
+    Note right of browser: The browser executes the callback function that get the notes with new note added    
 
     browser->>server: GET https://studies.cs.helsinki.fi/favicon.ico
     activate server
     server-->>browser: the icon file
     deactivate server
 
-    Note right of browser: The browser executes the callback function that renders the notes with new note added
+    Note right of browser: The browser renders the new note page
 ```
