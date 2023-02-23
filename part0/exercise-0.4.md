@@ -17,6 +17,8 @@ sequenceDiagram
     server-->>browser: HTML document
     deactivate server
 
+    Note right of browser: The browser reloads the notes page
+
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
     server-->>browser: the css file
@@ -41,5 +43,5 @@ sequenceDiagram
     server-->>browser: the icon file (html)
     deactivate server
 
-    Note right of browser: The browser renders the new note page
+    Note right of browser: The browser renders the notes page
 ```
