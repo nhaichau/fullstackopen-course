@@ -28,10 +28,10 @@ const App = () => {
   }
 
   const indexOfMaxArrValue = (Arr) => {
-    let maxValue = 0
-    let indexOfMaxValue
+    let maxValue = Arr[0]
+    let indexOfMaxValue = 0
     for (let i = 0; i < Arr.length; i++) {
-      if (Arr[i] >= maxValue) {
+      if (Arr[i] > maxValue) {
         maxValue = Arr[i]
         indexOfMaxValue = i
       } 
