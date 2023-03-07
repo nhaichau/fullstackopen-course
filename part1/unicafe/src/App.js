@@ -1,5 +1,28 @@
 import { useState } from 'react'
 
+// const Statistics = (props) => {
+//   const {good, neutral, bad, all, avg, positive, isFeedback} = props;
+
+//     if(isFeedback) {
+//       return (
+//         <div>
+//           <p>statistics</p>
+//           <StatisticLine text="good" value={good} />
+//           <StatisticLine text="neutral" value={neutral} />
+//           <StatisticLine text="bad" value={bad} />
+//           <StatisticLine text="all" value={all} />
+//           <StatisticLine text="avg" value={avg} />
+//           <StatisticLine text="positive" value={positive} />
+//         </div>
+//       );
+//     }
+//     return (
+//       <div>
+//         <p>No feedback given</p>
+//       </div>
+//     )    
+// }
+
 const Statistics = (props) => {
   const {good, neutral, bad, all, avg, positive, isFeedback} = props;
 
@@ -7,12 +30,16 @@ const Statistics = (props) => {
       return (
         <div>
           <p>statistics</p>
-          <StatisticLine text="good" value={good} />
-          <StatisticLine text="neutral" value={neutral} />
-          <StatisticLine text="bad" value={bad} />
-          <StatisticLine text="all" value={all} />
-          <StatisticLine text="avg" value={avg} />
-          <StatisticLine text="positive" value={positive} />
+          <table>
+            <tbody>
+              <TableRow text="good" value={good} />
+              <TableRow text="neutral" value={neutral} />
+              <TableRow text="bad" value={bad} />
+              <TableRow text="all" value={all} />
+              <TableRow text="average" value={avg} />
+              <TableRow text="positive" value={positive} />
+            </tbody>
+          </table>
         </div>
       );
     }
@@ -23,6 +50,7 @@ const Statistics = (props) => {
     )    
 }
 
+
 const Button = (props) => {
   return (
     <button onClick={props.handleClick}>
@@ -32,11 +60,20 @@ const Button = (props) => {
  
 }
 
-const StatisticLine = (props) => {
+// const StatisticLine = (props) => {
+//   return (
+//     <p>{props.text} {props.value}</p>
+//   )
+// }
+
+const TableRow = (props) => {
   return (
-    <p>{props.text} {props.value}</p>
-  )
-}
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
+  );
+};
 
 const App = () => {
   // save clicks of each button to its own state
@@ -48,7 +85,7 @@ const App = () => {
   const [avg, setAvg] = useState(0);
   const [positive, setPositive] = useState(0);
   const [isFeedback, setFeedback] = useState(false);
-
+  
   console.log('current good: ', positive);
   const goodHandler = () => {
     console.log('before clicking good: ', good);
@@ -115,6 +152,33 @@ const App = () => {
         isFeedback={isFeedback}
       />
 
+      {/* <p>statistics</p>
+      <table>
+        <tr>
+          <td>good</td>
+          <td>{good}</td>
+        </tr>
+        <tr>
+          <td>neutral</td>
+          <td>{neutral}</td>
+        </tr>
+        <tr>
+          <td>bad</td>
+          <td>{bad}</td>
+        </tr>
+        <tr>
+          <td>all</td>
+          <td>{all}</td>
+        </tr>
+        <tr>
+          <td>average</td>
+          <td>{avg}</td>
+        </tr>
+        <tr>
+          <td>positive</td>
+          <td>{positive}</td>
+        </tr>
+      </table> */}
 
     </div>
   )
