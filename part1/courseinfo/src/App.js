@@ -17,7 +17,7 @@ const Header = (props) => {
 const Part = (props) => {
   return (
     <div>
-      <p>{props.name} {props.execises}</p>
+      <p>{props.name} {props.exercises}</p>
     </div>
   )
 }
@@ -26,9 +26,9 @@ const Content = (props) => {
   console.log('value of props of Content is: ', props)
   return (
     <div>
-      <Part name={props.course.parts[0].name} execise={props.course.parts[0].exercises} />
-      <Part name={props.course.parts[1].name} execise={props.course.parts[1].exercises} />
-      <Part name={props.course.parts[2].name} execise={props.course.parts[2].exercises} />
+      <Part name={props.course.parts[0].name} exercises={props.course.parts[0].exercises} />
+      <Part name={props.course.parts[1].name} exercises={props.course.parts[1].exercises} />
+      <Part name={props.course.parts[2].name} exercises={props.course.parts[2].exercises} />
     </div>
   )
 }
