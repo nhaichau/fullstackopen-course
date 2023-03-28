@@ -1,0 +1,34 @@
+{
+  "persons": [
+    {
+      "name": "Ada Lovelace",
+      "number": "39-44-5323523",
+      "id": 2
+    },
+    {
+      "name": "Dan Abramov",
+      "number": "12-43-234345",
+      "id": 3
+    },
+    {
+      "name": "user1",
+      "number": "1234",
+      "id": 102
+    },
+    {
+      "name": "user2",
+      "number": "3456",
+      "id": 103
+    },
+    {
+      "name": "user 3",
+      "number": "",
+      "id": 104
+    },
+    {
+      "name": "loc tran",
+      "number": "1234567",
+      "id": 105
+    }
+  ]
+}

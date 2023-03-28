@@ -1,24 +1,28 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
+import personService from './services/personService'
 import ContactForm from './components/ContactForm'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
-  const [shownPersons, setShownPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]) 
+  const [persons, setPersons] = useState([])
+  const [shownPersons, setShownPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [contactEventMessage, setContactEventMessage] = useState(null)
+
+  useEffect(() => {
+    personService
+      .getAllPersons()
+      .then(response => {
+        console.log(response)
+        setPersons(response.data)
+        setShownPersons(response.data)
+      })
+  }, [])
 
   const handleInputName = (event) => {
     event.preventDefault()
@@ -35,13 +39,24 @@ const App = () => {
 
     if (persons.length === 0) {
       console.log(persons)
-      const newNameObject = {
+      const newPerson = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1
+        id: (persons.length + 100)
       }
-      setPersons(persons.concat(newNameObject))
-      setShownPersons(shownPersons.concat(newNameObject))
+      
+      personService
+        .createPerson(newPerson)
+        .then(response => {
+          console.log(response)
+          setPersons(persons.concat(response.data))
+          setShownPersons(shownPersons.concat(response.data))
+          
+        })
+      setContactEventMessage(`Added ${newPerson.name}`)
+      setTimeout(() => {
+        setContactEventMessage(null)
+      }, 5000)
       setNewName('')
       setNewNumber('')
     } else {
@@ -51,26 +66,45 @@ const App = () => {
       })
       
       if (existingPerson) {
-        alert (`${newName} already exists in the phonebook`)
+        const overwriteContact = window.confirm(`${newName} already exists in the phonebook, replace number?`)
+        if (overwriteContact) {
+          const newPerson = {
+            name: newName,
+            number: newNumber,
+            id: existingPerson.id
+          }
+          personService.updatePerson(newPerson)
+            .then(() => personService.getAllPersons()
+            .then(response => {
+              setPersons(response.data)
+              setShownPersons(response.data)
+            }))
+        }
         setNewName('')
         setNewNumber('')
       } else {
-        const newNameObject = {
+        const newPerson = {
           name: newName,
           number: newNumber,
-          id: persons.length + 1
+          id: persons.length + 100
         }
-        setPersons(persons.concat(newNameObject))
-        setShownPersons(shownPersons.concat(newNameObject))
+        personService
+        .createPerson(newPerson)
+        .then(response => {
+          console.log(response)
+          setPersons(persons.concat(response.data))
+          setShownPersons(shownPersons.concat(response.data))
+        })
+        setContactEventMessage(`Added ${newPerson.name}`)
+        setTimeout(() => {
+          setContactEventMessage(null)
+        }, 5000)
         setNewName('')
         setNewNumber('')
-      }
-      
-      
+      }  
     }
       
-  }
-    
+  }  
 
   const handleFilter = (event) => {
     event.preventDefault()
@@ -86,15 +120,29 @@ const App = () => {
       setShownPersons(filterredPersons)
     } else {
       setShownPersons(persons)
-    }
-    
+    } 
+  }
 
+  const handleDeleteContact = (person) => {
+    //let tempPersons = persons
+    const isDeleted = window.confirm(`Delete ${person.name} ?`)
+    if (isDeleted) {
+      //tempPersons.splice(person.id - 1, 1)
+      console.log('delete comfirmed')
+      personService.deletePerson(person)
+        .then(() => personService.getAllPersons()
+        .then(response => {
+          setPersons(response.data)
+          setShownPersons(response.data)
+        }))
+    }
 
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={contactEventMessage} />
       <ContactForm 
         newName={newName} 
         newNumber={newNumber} 
@@ -118,7 +166,7 @@ const App = () => {
       {/* <div>
         Filter contact name with: <input value={filter} onChange={handleFilter} />
       </div> */}
-      <Persons shownPersons={shownPersons} />
+      <Persons shownPersons={shownPersons} deleteContact={handleDeleteContact}/>
       {/* <ul> 
         {shownPersons.map(person => 
           (!shownPersons.length ? ''
